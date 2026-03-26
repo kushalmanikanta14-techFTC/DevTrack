@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop Inventory</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Dashboard Entry Screen -->
+        <main id="view-dashboard" class="view active">
+            <header class="dash-hero">
+                <h1>Laptop Inventory</h1>
+                <p>Manage devices cleanly and efficiently.</p>
+            </header>
+            <div class="dash-cards">
+                <div class="dash-card interactive" id="btn-show-add">
+                    <div class="card-icon">
+                        <i class="ri-add-line"></i>
+                    </div>
+                    <h2>Add Laptop</h2>
+                    <p>Register a new device into the inventory system.</p>
+                </div>
+                <div class="dash-card interactive" id="btn-show-grid">
+                    <div class="card-icon">
+                        <i class="ri-macbook-line"></i>
+                    </div>
+                    <h2>Laptop Details</h2>
+                    <p>View, search, and manage all registered devices.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Laptop Grid View -->
+        <main id="view-grid" class="view hidden">
+            <header class="grid-header">
+                <div class="header-left">
+                    <button class="icon-btn" id="btn-back-dash" title="Back to Dashboard">
+                        <i class="ri-arrow-left-line"></i>
+                    </button>
+                    <h2>Inventory</h2>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="ri-search-line"></i>
+                        <input type="text" id="search-input" placeholder="Search devices, employees, or ID...">
+                    </div>
+                    <button class="primary-btn" id="btn-show-add-from-grid">
+                        <i class="ri-add-line"></i> New
+                    </button>
+                </div>
+            </header>
+            <div class="grid-container" id="laptop-grid">
+                <!-- Laptop Cards injected here -->
+            </div>
+            
+            <div id="empty-state" class="empty-state hidden">
+                <div class="empty-icon"><i class="ri-inbox-line"></i></div>
+                <h3>No Laptops Found</h3>
+                <p>Try adjusting your search or add a new device.</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        
+        <!-- Add Laptop Modal -->
+        <div id="modal-add" class="modal hidden">
+            <div class="modal-header">
+                <h3 id="form-title">Add New Laptop</h3>
+                <button class="close-btn"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-laptop-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Asset ID *</label>
+                            <input type="text" name="assetId" required placeholder="e.g. AST-001">
+                        </div>
+                        <div class="form-group">
+                            <label>Device Name *</label>
+                            <input type="text" name="deviceName" required placeholder="e.g. MacBook Pro 16">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Employee Name *</label>
+                            <input type="text" name="employeeName" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Status *</label>
+                            <select name="status" required>
+                                <option value="In Use">In Use</option>
+                                <option value="In Stock">In Stock</option>
+                                <option value="Repair">Repair</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Company *</label>
+                            <select name="company" required>
+                                <option value="Soham">Soham</option>
+                                <option value="Texoham">Texoham</option>
+                                <option value="Innomayi">Innomayi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Department</label>
+                            <input type="text" name="department" placeholder="e.g. Engineering">
+                        </div>
+                    </div>
+
+                    <div class="form-details-section">
+                        <h4>Technical Details</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Brand & Model</label>
+                                <input type="text" name="brandModel" placeholder="Apple MacBook Pro M2">
+                            </div>
+                            <div class="form-group">
+                                <label>Serial Number</label>
+                                <input type="text" name="serialNumber" placeholder="C02XXXXXXXXX">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>RAM & Storage</label>
+                                <input type="text" name="specs" placeholder="16GB, 512GB SSD">
+                            </div>
+                            <div class="form-group">
+                                <label>Purchase Date</label>
+                                <input type="date" name="purchaseDate">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Warranty Expiry</label>
+                                <input type="date" name="warrantyExpiry">
+                            </div>
+                            <div class="form-group">
+                                <!-- empty column to keep alignment -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-details-section">
+                        <h4>Account Credentials</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Outlook Email</label>
+                                <input type="email" name="outlookEmail" placeholder="employee@company.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Outlook Password</label>
+                                <input type="text" name="outlookPassword" placeholder="Auto-generated or assigned">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-details-section">
+                        <h4>Network Info</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>WiFi MAC Address</label>
+                                <input type="text" name="wifiMac" placeholder="00:1A:2B:3C:4D:5E">
+                            </div>
+                            <div class="form-group">
+                                <label>LAN MAC Address</label>
+                                <input type="text" name="lanMac" placeholder="00:1A:2B:3C:4D:5F">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1rem;">
+                        <label>Notes</label>
+                        <textarea name="notes" rows="3" placeholder="Any additional details..."></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn-cancel close-btn-cancel">Cancel</button>
+                        <button type="submit" class="btn-submit">Save Device</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Detail Modal Wrapper -->
+        <div id="modal-detail" class="modal hidden">
+            <!-- Content injected via JS -->
+        </div>
+
+    </div>
+
+    <!-- Confirm Dialog -->
+    <div id="confirm-overlay" class="modal-overlay hidden" style="z-index: 200;">
+        <div class="confirm-dialog modal" style="max-width: 400px; padding: 2rem;">
+            <div class="modal-body text-center">
+                <div class="confirm-icon" style="font-size: 3rem; color: #ef4444; margin-bottom: 1rem;">
+                    <i class="ri-error-warning-line"></i>
+                </div>
+                <h3 id="confirm-title" style="margin-bottom: 0.5rem; font-size: 1.25rem; font-weight: 600;">Are you sure?</h3>
+                <p id="confirm-message" style="color: var(--text-muted); margin-bottom: 2rem;">This action cannot be undone.</p>
+                <div class="modal-footer justify-center" style="margin-top: 0;">
+                    <button id="btn-confirm-cancel" class="btn-cancel">Cancel</button>
+                    <button id="btn-confirm-yes" class="btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
